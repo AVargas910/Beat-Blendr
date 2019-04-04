@@ -10,6 +10,7 @@ class PlaylistsController < ApplicationController
                             "name" => "BeatBlender Event Playlist"
                           }.to_json
                         )
+
     playlist_id = playlist_response['id']
     playlist = current_user.create_playlist(
       playlist_id: playlist_id,
@@ -18,18 +19,10 @@ class PlaylistsController < ApplicationController
     )
 
     tracks = []
-    if nearby_users.length === 1
-      User.all.each do |user|
-        tracks << user.tracks
-                      .send(params[:playlistType])
-                      .pluck(:spotify_id)
-      end
-    else
-      nearby_users.each do |user|
+    nearby_users.each do |user|
             tracks << user.tracks
                           .send(params[:playlistType])
                           .pluck(:spotify_id)
-          end
     end
     tracks.flatten!
     tracks.shuffle!
