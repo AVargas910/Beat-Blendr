@@ -25,17 +25,15 @@ link.click();
           <div className="textinsidepop">
             <p>Welcome!</p>
             <br/>
-            <p>BeatBlendr is an app that lets you sample music based on the preferences of nearby users!</p>
+            <p>BeatBlendr lets you sample music based on nearby user preferences with just one click!</p>
             <br/>
-            <p>With one click, create a new Spotify playlist containing the favorite tracks of users within your specified search radius.</p>
+            <p>Perfect for instant quick and easy party playlists.</p>
             <br/>
-            <p>You can filter the BeatBlendr playlist generator to return danceable or relaxing music!</p>
+            <p>You can filter the BeatBlendr playlist generator to return danceable or relaxing music.</p>
             <br/>
-            <p>Throwing a party? Having some friends over for dinner? Maybe you just want some new tunes blasting in your headphones.</p>
+            <p>If no users are logged in nearby, we will generate a playlist from our database so you can still sample some new music.</p>
             <br/>
-            <p>Whatever your occasion, BeatBlendr has you covered!</p>
-            <br/>
-            <p>To get started, just hit the Generate Playlist button.</p>
+            <p>To get started, just hit the Generate Playlist button!</p>
           </div>
         </div>
           <p className="hint">
