@@ -8,8 +8,14 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
                    headers: headers)
 
     if top_tracks_response["items"].count === 0
-      flash[:notice] = 'BeatBlendr requires active Spotify users!'
-      redirect_to root_path and return
+      if @user.persisted?
+        set_flash_message(:notice, :success, :kind => "Spotify") if is_navigational_format?
+        sign_in_and_redirect @user, :event => :authentication and return      
+      else
+        session['devise.spotify_data'] = request.env['omniauth.auth']
+        redirect_to new_user_registration_url
+      end
+
     else
 
       track_ids = []

@@ -1,5 +1,6 @@
 class PlaylistsController < ApplicationController
   skip_before_action :verify_authenticity_token
+  require 'pry'
 
   def create
     playlist_response = HTTParty.post(
@@ -15,13 +16,21 @@ class PlaylistsController < ApplicationController
       playlist_type: params[:playlistType],
       range: params[:range]
     )
+
     tracks = []
-    User.near([current_user.latitude, current_user.longitude], (current_user.playlist.range / 5280))
-        .each do |user|
-          tracks << user.tracks
-                        .send(params[:playlistType])
-                        .pluck(:spotify_id)
-        end
+    if nearby_users.length === 1
+      User.all.each do |user|
+        tracks << user.tracks
+                      .send(params[:playlistType])
+                      .pluck(:spotify_id)
+      end
+    else
+      nearby_users.each do |user|
+            tracks << user.tracks
+                          .send(params[:playlistType])
+                          .pluck(:spotify_id)
+          end
+    end
     tracks.flatten!
     tracks.shuffle!
     tracks.map!{|spotify_id| "spotify:track:#{spotify_id}"}
@@ -50,6 +59,10 @@ class PlaylistsController < ApplicationController
       "Authorization" => "Bearer #{current_user.token}",
       "Content-Type" => "application/json"
     }
+  end
+
+  def nearby_users
+    User.near([current_user.latitude, current_user.longitude], (current_user.playlist.range / 5280))
   end
 
 end
